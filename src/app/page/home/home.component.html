@@ -1,0 +1,40 @@
+<mat-drawer-container
+  [autosize]="true"
+  class="min-h-full max-w-7xl mx-auto border-x"
+>
+  <mat-card class="flex justify-between px-8 py-20" >
+    <div class="flex justify-end py-10">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="openAddCategoryDialog()"
+      >
+        Add new catogry
+      </button>
+    </div>
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Column definitions -->
+        <ng-container matColumnDef="CATEGORIES">
+          <th mat-header-cell *matHeaderCellDef>CATEGORIES</th>
+          <td mat-cell *matCellDef="let element">{{ element.CATEGORIES }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="QuantityProductOfCatogry">
+          <th mat-header-cell *matHeaderCellDef>QuantityProductOfCategory</th>
+          <td mat-cell *matCellDef="let element">
+            <span
+              class="cursor-pointer text-blue-500 underline hover:text-blue-700"
+              (click)="viewProducts(element.CATEGORIES)"
+              >products{{ element.QuantityProductOfCatogry }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Header and row declarations -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </mat-card>
+</mat-drawer-container>
