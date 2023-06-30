@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Category } from 'src/app/class/category.class';
 import { Product } from 'src/app/class/class';
+import { CategoryService } from 'src/app/service/category.service';
 import { ProductService } from 'src/app/service/product.service';
 
 @Component({
@@ -11,8 +13,11 @@ import { ProductService } from 'src/app/service/product.service';
 })
 export class AddProductComponent implements OnInit {
   productForm: FormGroup;
+  categories: Category[] = [];
 
-  constructor(private fb: FormBuilder, private router: Router, private productService: ProductService) {
+  constructor(public dialogRef: MatDialogRef<AddProductComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder,  private categoryService: CategoryService,
+    private productService: ProductService ) {
     this.productForm = this.fb.group({
       title: ['', Validators.required],
       price: ['', Validators.required],
@@ -22,15 +27,13 @@ export class AddProductComponent implements OnInit {
     });
   }
 ngOnInit(): void {
-  
+  this.categories = this.categoryService.getCatogories();
 }
 
 selectedFile: File | null = null;
 
-
 onFileSelected(event : any) {
   this.selectedFile = <File>event.target.files[0];
-  console.log(this.selectedFile)
 }
 
 addProduct(): void {
@@ -40,9 +43,9 @@ addProduct(): void {
     reader.readAsDataURL(this.selectedFile);
     reader.onload = () =>{
       product.imageUrl = reader.result as string;
-      var category = this.productForm.get('category')!.value;
+      console.log(product);
       this.productService.setProducts(product);
-      this.router.navigate(['/products',category]);
+      this.dialogRef.close();
     };
   }
 }

@@ -18,17 +18,23 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './components/header/header.component';
-
-import { AddCategoryDialogComponent } from './page/home/components/add-category-dialog/add-category-dialog.component';
-import { HomeComponent } from './page/home/home.component';
-import { ProductsComponent } from './page/home/components/products/products.component';
-import { AddProductComponent } from './page/home/components/add-product/add-product.component';
+import { HomeComponent } from './components/home/home.component';
+import { AddCategoryDialogComponent } from './components/add-category-dialog/add-category-dialog.component';
+import { ProductsComponent } from './components/products/products.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
 import { ProductService } from './service/product.service';
+import { CategoryComponent } from './components/category/category.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+
+
+
 
 
 @NgModule({
@@ -39,6 +45,8 @@ import { ProductService } from './service/product.service';
     AddCategoryDialogComponent,
     ProductsComponent,
     AddProductComponent,
+    CategoryComponent,
+    ConfirmDialogComponent,
  
   ],
   imports: [
@@ -63,6 +71,10 @@ import { ProductService } from './service/product.service';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
+    LayoutModule,
+    MatTreeModule,
+    MatSelectModule
+    
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]

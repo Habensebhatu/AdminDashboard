@@ -9,3 +9,9 @@ export interface Product {
     price: number;
     id: number;
   }
+
+  export interface DialogData {
+    name: string;
+    quantity: string;
+  }
+  

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AddCategoryDialogComponent } from 'src/app/page/home/components/add-category-dialog/add-category-dialog.component';
+import { AddCategoryDialogComponent } from '../add-category-dialog/add-category-dialog.component';
+
 
 export interface Element {
   CATEGORIES: string;
