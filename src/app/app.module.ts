@@ -32,9 +32,8 @@ import { ProductService } from './service/product.service';
 import { CategoryComponent } from './components/category/category.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-
-
-
+import { EditCategoryDialogComponent } from './components/edit-category-dialog/edit-category-dialog.component';
+import { EditProductDialogComponent } from './components/edit-product-dialog/edit-product-dialog.component';
 
 
 @NgModule({
@@ -47,6 +46,9 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     AddProductComponent,
     CategoryComponent,
     ConfirmDialogComponent,
+    EditCategoryDialogComponent,
+    EditProductDialogComponent,
+   
  
   ],
   imports: [

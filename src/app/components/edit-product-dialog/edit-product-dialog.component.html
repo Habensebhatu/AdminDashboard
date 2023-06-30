@@ -1,0 +1,32 @@
+<div class="p-6">
+    <h2>Edit product</h2>
+  </div>
+    <form [formGroup]="productForm"  class="p-6">
+      <mat-form-field class="w-full" >
+        <mat-label>Title</mat-label>
+        <input matInput type="text" formControlName="title">
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="price">
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Category</mat-label>
+        <!-- Change the input to a mat-select and bind the options to your categories -->
+        <mat-select matInput formControlName="category">
+          <mat-option *ngFor="let category of categories" [value]="category.category">
+            {{ category.category}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Description</mat-label>
+        <input matInput type="text" formControlName="description">
+      </mat-form-field>
+      <div class="file-upload mb-5">
+        <input type="file" id="file" class="file-input"  (change)="onFileSelected($event)">
+      </div>
+      <button mat-raised-button color="primary" (click)="save()" > Edit Product</button>
+    </form>
+  
+  

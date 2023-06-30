@@ -5,6 +5,7 @@ import { AddCategoryDialogComponent } from '../add-category-dialog/add-category-
 import { Category } from 'src/app/class/category.class';
 import { CategoryService } from 'src/app/service/category.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { EditCategoryDialogComponent } from '../edit-category-dialog/edit-category-dialog.component';
 
 
 
@@ -51,12 +52,25 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  edit(category: Category) {
-    // Code to edit the category
+  editCategory(category: Category) {
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
+      data: category,
+      width: '450px',
+      height: '350px',
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const index = this.dataSource.findIndex(cat => cat.id === category.id);
+        if (index !== -1) {
+          this.dataSource[index] = { ...category, ...result };
+          this.categoryService.updateCategory(this.dataSource[index]);
+        }
+      }
+    });
   }
 
   remove(category: Category) {
-    console.log('tegs', category)
     this.categoryService.removeCategory(category);
   }
 }

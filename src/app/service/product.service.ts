@@ -23,4 +23,23 @@ export class ProductService {
     } 
       return [...this.products];
   }
+
+  removeProducts(product: Product) {
+    let products = this.getProducts();
+    products = products.filter(pro => pro.id !== product.id);
+    localStorage.setItem('products', JSON.stringify( products));
+    this.productsUpdated.next( products);
+  }
+  
+  updateProduct(product: Product) {
+    const index = this.products.findIndex(pro => pro.id === product.id);
+    if (index !== -1) {
+      console.log("savekklklklkl")
+      this.products[index] = product;
+    }
+    console.log("save",[...this.products] )
+    localStorage.setItem('products', JSON.stringify([...this.products]));
+    this.productsUpdated.next([...this.products]);
+  }
+  
 }

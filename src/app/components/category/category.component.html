@@ -5,7 +5,7 @@
         color="primary"
         (click)="openAddCategoryDialog()"
       >
-        Add new catogry
+        Add new category
       </button>
     </div>
     <div>
@@ -32,7 +32,7 @@
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="edit(element)">
+                  <button mat-menu-item (click)="editCategory(element)">
                     <mat-icon>edit</mat-icon>
                     <span>Edit</span>
                   </button>
@@ -41,8 +41,7 @@
                     <span>Remove</span>
                   </button>
                 </mat-menu>
-              </td>
-              
+              </td>   
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
