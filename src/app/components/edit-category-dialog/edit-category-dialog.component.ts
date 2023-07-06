@@ -15,11 +15,12 @@ export class EditCategoryDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: Category,
     private fb: FormBuilder) {
       this.form = this.fb.group({
-        category: [data.category, Validators.required],
+        Name: [data.name, Validators.required],
       });
     }
 
   save() {
+    
     this.dialogRef.close(this.form.value);
   }
 }

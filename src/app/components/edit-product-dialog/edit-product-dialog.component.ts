@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CategoryService } from 'src/app/service/category.service';
 import { ProductService } from 'src/app/service/product.service';
 import { Product } from 'src/app/class/class';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-edit-product-dialog',
@@ -14,20 +15,21 @@ import { Product } from 'src/app/class/class';
 export class EditProductDialogComponent {
   productForm: FormGroup;
   categories: Category[] = [];
+  private unsubscribe$ = new Subject<void>();
 
   constructor(public dialogRef: MatDialogRef<EditProductDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder, private categoryService: CategoryService,
+    @Inject(MAT_DIALOG_DATA) public data: Product, private fb: FormBuilder, private categoryService: CategoryService,
     private productService: ProductService) {
     this.productForm = this.fb.group({
       title: [data.title],
       price: [data.price],
-      category: [data.category],
+      category: [data.categoryName],
       description: [data.description],
       image: ['',]
     });
   }
   ngOnInit(): void {
-    this.categories = this.categoryService.getCatogories();
+    this.getCatogories();
   }
 
   selectedFile: File | null = null;
@@ -36,14 +38,26 @@ export class EditProductDialogComponent {
     this.selectedFile = <File>event.target.files[0];
   }
 
+  getCatogories(){
+    this.categoryService.getCatogories().pipe(takeUntil(this.unsubscribe$))
+    .subscribe((data: Category[]) => {
+      this.categories = data;
+    });;
+  }
+
   save() {
     if (this.selectedFile) {
       const product = new Product(this.productForm.value);
+      const test = this.productForm.get('category')!.value
       let reader = new FileReader();
       reader.readAsDataURL(this.selectedFile);
       reader.onload = () =>{
         product.imageUrl = reader.result as string;
-        product.id = this.data.id
+        product.productId = this.data.productId
+        product.categoryId = this.data.categoryId
+        product.categoryName = test
+        console.log("test", test)
+        console.log("prrrr",product);
         this.dialogRef.close(product);
       };
     }

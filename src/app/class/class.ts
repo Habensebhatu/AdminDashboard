@@ -1,18 +1,20 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export class Product {
-      public id: string;
+      public productId: string;
+      public categoryId: string;
       public title: string;
       public price: number;
-      public category: string;
+      public categoryName: string;
       public description: string;
       public imageUrl: string
 
       constructor(data: any) {
-        this.id = uuidv4();
+        this.productId = uuidv4();
+        this.categoryId = data.categoryId
         this.title = data.title;
         this.price = data.price;
-        this.category = data.category;
+        this.categoryName = data.categoryName;
         this.description = data.description;
         this.imageUrl = data.imageUrl;
 

@@ -6,6 +6,7 @@ import { Category } from 'src/app/class/category.class';
 import { CategoryService } from 'src/app/service/category.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { EditCategoryDialogComponent } from '../edit-category-dialog/edit-category-dialog.component';
+import { Subject, takeUntil } from 'rxjs';
 
 
 
@@ -25,13 +26,17 @@ export class CategoryComponent implements OnInit {
   displayedColumns = ['CATEGORIES', 'QuantityProduct', 'action'];
   dataSource :Category[]  = [];
   showCard = false;
+  private unsubscribe$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.dataSource = this.categoryService.getCatogories();
+    // this.dataSource = this.categoryService.getCatogories();
+    this.getCatogories();
     this.categoryService.categoriesUpdated.subscribe(updatedCategories => {
       this.dataSource = updatedCategories;
+      console.log("shoild work", this.dataSource)
+      
     });
-   
+    console.log("hhshjshhj",  this.dataSource)
   }
   openAddCategoryDialog(): void {
     const dialogRef = this.dialog.open(AddCategoryDialogComponent, {
@@ -41,7 +46,15 @@ export class CategoryComponent implements OnInit {
     })
 
   }
-
+  
+  getCatogories(){
+    this.categoryService.getCatogories().pipe(takeUntil(this.unsubscribe$))
+    .subscribe((data: Category[]) => {
+      this.dataSource = data;
+      console.log("mmmmmmm",  this.dataSource)
+      console.log("csscs", this.dataSource)
+    });;
+  }
   openConfirmDialog(category: Category): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
 
@@ -61,16 +74,29 @@ export class CategoryComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const index = this.dataSource.findIndex(cat => cat.id === category.id);
+        const index = this.dataSource.findIndex(cat => cat.categoryId === category.categoryId);
         if (index !== -1) {
           this.dataSource[index] = { ...category, ...result };
-          this.categoryService.updateCategory(this.dataSource[index]);
+          this.categoryService.updateCategory(this.dataSource[index]).pipe(takeUntil(this.unsubscribe$))
+          .subscribe({
+              next: (next) => {
+                this.getCatogories();
+      
+              }
+          });
         }
       }
     });
   }
 
   remove(category: Category) {
-    this.categoryService.removeCategory(category);
+    console.log("eeeerrrrr",category)
+    this.categoryService.removeCategory(category).pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+        next: (next) => {
+          this.getCatogories();
+
+        }
+    });;
   }
 }

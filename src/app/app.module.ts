@@ -34,6 +34,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { EditCategoryDialogComponent } from './components/edit-category-dialog/edit-category-dialog.component';
 import { EditProductDialogComponent } from './components/edit-product-dialog/edit-product-dialog.component';
+import { OrderComponent } from './components/order/order.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -48,6 +50,7 @@ import { EditProductDialogComponent } from './components/edit-product-dialog/edi
     ConfirmDialogComponent,
     EditCategoryDialogComponent,
     EditProductDialogComponent,
+    OrderComponent,
    
  
   ],
@@ -75,7 +78,8 @@ import { EditProductDialogComponent } from './components/edit-product-dialog/edi
     ReactiveFormsModule,
     LayoutModule,
     MatTreeModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule,
     
   ],
   providers: [ProductService],

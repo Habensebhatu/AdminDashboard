@@ -1,13 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export class Category {
-      public id: string;
-      public category: string;
+      public categoryId: string;
+      public name: string;
       public quantityProduct : number;
      
       constructor(data: any) {
-        this.id = uuidv4();
-        this.category = data.category;
+        this.categoryId = uuidv4();
+        this.name = data.Name;
         this.quantityProduct = data.quantityProduct
        
     }

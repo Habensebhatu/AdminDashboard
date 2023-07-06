@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { Product } from 'src/app/class/class';
 import { ProductService } from 'src/app/service/product.service';
 import { AddProductComponent } from '../add-product/add-product.component';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { EditProductDialogComponent } from '../edit-product-dialog/edit-product-dialog.component';
+import { CategoryService } from 'src/app/service/category.service';
 
 @Component({
   selector: 'app-products',
@@ -14,8 +15,8 @@ import { EditProductDialogComponent } from '../edit-product-dialog/edit-product-
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit, OnDestroy  {
-
-  constructor(private router: Router, private productService: ProductService, public dialog: MatDialog) {}
+  private unsubscribe$ = new Subject<void>();
+  constructor(private router: Router, private productService: ProductService, public dialog: MatDialog, private categoryService: CategoryService) {}
   
   displayedColumns: string[] = [
     'product',
@@ -26,15 +27,23 @@ export class ProductsComponent implements OnInit, OnDestroy  {
   ];
   productsSubscription: Subscription | undefined;
   dataSource: Product[] = [];
- 
+  
   ngOnInit(): void {
-    this.dataSource = this.productService.getProducts();
+  this.getProducts();
     this.productService.productsUpdated.subscribe(updatedProductes => {
       this.dataSource = updatedProductes;
+      console.log("teste", updatedProductes);
     });
     
   }
-
+  getProducts(){
+    this.productService.getProducts().pipe(takeUntil(this.unsubscribe$))
+    .subscribe((data: Product[]) => {
+      this.dataSource = data;
+      console.log("mmmmmmm",  this.dataSource)
+      console.log("csscs", this.dataSource)
+    });;
+  }
   openAddProductDialog(): void {
     const dialogRef = this.dialog.open(AddProductComponent, {
       width: '450px',
@@ -67,21 +76,49 @@ export class ProductsComponent implements OnInit, OnDestroy  {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("resre", result);
-        const index = this.dataSource.findIndex(cat => cat.id === product.id);
+        const index = this.dataSource.findIndex(cat => cat.productId === product.productId);
         if (index !== -1) {
           this.dataSource[index] = { ...product, ...result };
-          console.log("index", this.dataSource[index]);
-          this.productService.updateProduct(this.dataSource[index]);
+          this.productService.updateProduct(this.dataSource[index]).pipe(takeUntil(this.unsubscribe$))
+          .subscribe({
+              next: (next) => {
+                this.getProducts();
+      
+              }
+          });
         }
       }
     });
   }
+ 
 
-  remove(product: Product) {
-    this.productService.removeProducts(product);
+  
+    remove(product: Product) {
+    var productId =  product.categoryId 
+    this.productService.removeProducts(product).pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+        next: (next) => {
+          this.categoryService.getCategoryById(productId).pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+        next: (category) => {
+         category.quantityProduct -= 1;
+         this.categoryService.updateCategory(category).pipe(takeUntil(this.unsubscribe$))
+         .subscribe({
+             next: (next) => {
+               console.log("categpry", next)
+               this.getProducts();
+             }
+         });
+         
+        }
+    });
+        }
+    });
+   
+    
   }
   ngOnDestroy(): void {
-    this.productService.productsUpdated.unsubscribe();
+    // this.productService.productsUpdated.unsubscribe();
+   
   }
 }
