@@ -36,6 +36,8 @@ import { EditCategoryDialogComponent } from './components/edit-category-dialog/e
 import { EditProductDialogComponent } from './components/edit-product-dialog/edit-product-dialog.component';
 import { OrderComponent } from './components/order/order.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './auth.guard';
 
 
 @NgModule({
@@ -51,6 +53,7 @@ import { HttpClientModule } from '@angular/common/http';
     EditCategoryDialogComponent,
     EditProductDialogComponent,
     OrderComponent,
+    LoginComponent,
    
  
   ],
@@ -81,8 +84,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatSelectModule,
     HttpClientModule,
     
+    
   ],
-  providers: [ProductService],
+  providers: [ProductService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

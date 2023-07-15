@@ -4,6 +4,7 @@
     </button>
       </div>
 <div class="mx-auto w-3/4">
+  <mat-card class="max-w-7xl mx-auto">
   <table mat-table [dataSource]="dataSource" class="w-full mat-elevation-z8">
     <ng-container matColumnDef="product">
       <th mat-header-cell *matHeaderCellDef>Product</th>
@@ -56,5 +57,6 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
+</mat-card>
 </div>
 

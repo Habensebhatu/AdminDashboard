@@ -30,18 +30,16 @@ export class ProductsComponent implements OnInit, OnDestroy  {
   
   ngOnInit(): void {
   this.getProducts();
-    this.productService.productsUpdated.subscribe(updatedProductes => {
-      this.dataSource = updatedProductes;
-      console.log("teste", updatedProductes);
-    });
+    // this.productService.productsUpdated.subscribe(updatedProductes => {
+    //   this.dataSource = updatedProductes;
+    //   console.log("updatedProductes", updatedProductes);
+    // });
     
   }
   getProducts(){
     this.productService.getProducts().pipe(takeUntil(this.unsubscribe$))
     .subscribe((data: Product[]) => {
       this.dataSource = data;
-      console.log("mmmmmmm",  this.dataSource)
-      console.log("csscs", this.dataSource)
     });;
   }
   openAddProductDialog(): void {
@@ -52,7 +50,8 @@ export class ProductsComponent implements OnInit, OnDestroy  {
   
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      // Handle any actions after closing the dialog
+      this.getProducts()
+      
     });
   }
 

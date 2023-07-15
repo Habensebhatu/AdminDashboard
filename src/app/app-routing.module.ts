@@ -5,22 +5,33 @@ import { ProductsComponent } from './components/products/products.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { CategoryComponent } from './components/category/category.component';
 import { OrderComponent } from './components/order/order.component';
-
+import { AuthGuard } from './auth.guard';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'home',
-    component: HomeComponent,
+    component: HomeComponent, canActivate: [AuthGuard] 
   },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'products', component: ProductsComponent },
-  { path: 'add-product', component: AddProductComponent },
-  { path: 'categories', component: CategoryComponent },
+  { path: 'login', component: LoginComponent },
+
+  { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'add-product',
+    component: AddProductComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'categories',
+    component: CategoryComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'order', component: OrderComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

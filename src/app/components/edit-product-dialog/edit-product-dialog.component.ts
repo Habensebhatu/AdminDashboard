@@ -48,19 +48,35 @@ export class EditProductDialogComponent {
   save() {
     if (this.selectedFile) {
       const product = new Product(this.productForm.value);
-      const test = this.productForm.get('category')!.value
-      let reader = new FileReader();
-      reader.readAsDataURL(this.selectedFile);
-      reader.onload = () =>{
-        product.imageUrl = reader.result as string;
-        product.productId = this.data.productId
-        product.categoryId = this.data.categoryId
-        product.categoryName = test
-        console.log("test", test)
-        console.log("prrrr",product);
-        this.dialogRef.close(product);
-      };
+      let selectedCategory = this.productForm.get('category')!.value;
+      product.productId = this.data.productId
+      product.categoryId = this.data.categoryId
+      product.categoryName = selectedCategory
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      product.imageUrl = formData;
+      this.dialogRef.close(product);
+     
     }
   }
+  
+
+  // save() {
+  //   if (this.selectedFile) {
+  //     const product = new Product(this.productForm.value);
+  //     const test = this.productForm.get('category')!.value
+  //     let reader = new FileReader();
+  //     reader.readAsDataURL(this.selectedFile);
+  //     reader.onload = () =>{
+  //       product.imageUrl = reader.result as string;
+  //       product.productId = this.data.productId
+  //       product.categoryId = this.data.categoryId
+  //       product.categoryName = test
+  //       console.log("test", test)
+  //       console.log("prrrr",product);
+  //       this.dialogRef.close(product);
+  //     };
+  //   }
+  // }
 
 }

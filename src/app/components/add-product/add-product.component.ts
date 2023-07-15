@@ -41,33 +41,33 @@ onFileSelected(event : any) {
 }
 
 
-
-
 addProduct(): void {
   if (this.selectedFile) {
     const product = new Product(this.productForm.value);
-    let reader = new FileReader();
-    reader.readAsDataURL(this.selectedFile);
-    reader.onload = () =>{
-      product.imageUrl = reader.result as string;
-      let selectedCategory = this.productForm.get('category')!.value;
-      product.categoryName = selectedCategory.name
-      product.categoryId = selectedCategory.categoryId
-      selectedCategory.quantityProduct += 1;
-      this.productService.setProducts(product).pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (next) => {
+    let selectedCategory = this.productForm.get('category')!.value;
+    product.categoryName = selectedCategory.name;
+    product.categoryId = selectedCategory.categoryId;
+    selectedCategory.quantityProduct += 1;
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    formData.append('product', JSON.stringify(product));
+       console.log("formmds", formData)
+       console.log('file:', formData.get('file'));
+console.log('product:', formData.get('product'));  
+    this.productService.setProducts(formData).pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+        next: (addedProduct: Product) => {
+          console.log("addProduct", addedProduct)
+            this.productService.addProductToCache(addedProduct);
             this.categoryService.updateCategory(selectedCategory).pipe(takeUntil(this.unsubscribe$))
-            .subscribe({
-              next: (next) => {
-                this.dialogRef.close();
-              }
-            });; 
-          
+                .subscribe({
+                    next: (next) => {
+                        this.dialogRef.close();
+                    }
+                });
         }
-      });
-     
-    };
+    });
+
   }
 }
 
@@ -82,5 +82,34 @@ getCatogories(){
 
 // ngOnDestroy(): void {
 //   this.productService.productsUpdated.unsubscribe();
+// }
+
+// addProduct(): void {
+//   if (this.selectedFile) {
+//     console.log("image", this.selectedFile)
+//     const product = new Product(this.productForm.value);
+//     let reader = new FileReader();
+//     reader.readAsDataURL(this.selectedFile);
+//     reader.onload = () =>{
+//       product.imageUrl = reader.result as string;
+//       let selectedCategory = this.productForm.get('category')!.value;
+//       product.categoryName = selectedCategory.name
+//       product.categoryId = selectedCategory.categoryId
+//       selectedCategory.quantityProduct += 1;
+//       this.productService.setProducts(product).pipe(takeUntil(this.unsubscribe$))
+//       .subscribe({
+//         next: (next) => {
+//             this.categoryService.updateCategory(selectedCategory).pipe(takeUntil(this.unsubscribe$))
+//             .subscribe({
+//               next: (next) => {
+//                 this.dialogRef.close();
+//               }
+//             });; 
+          
+//         }
+//       });
+     
+//     };
+//   }
 // }
 }
