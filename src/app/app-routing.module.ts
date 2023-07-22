@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { ProductsComponent } from './components/products/products.component';
-import { AddProductComponent } from './components/add-product/add-product.component';
-import { CategoryComponent } from './components/category/category.component';
+import { ProductsComponent } from './components/productsFolder/products/products.component';
+import { AddProductComponent } from './components/productsFolder/add-product/add-product.component';
+import { CategoryComponent } from './components/categries/category/category.component';
 import { OrderComponent } from './components/order/order.component';
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './components/login/login.component';

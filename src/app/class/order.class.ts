@@ -1,20 +1,26 @@
 import { Product } from "./class";
+import { OrderDetails } from "./orderDetails.class";
+
 
 export class Order {
-    id: number;
+  orderId: number;
     customerId: number;
     products: Product[];
+    orderDatails : OrderDetails[];
     dateOrdered: Date;
     status: string;
     total: number;
+    name: string;
     
     constructor(orderInfo: any) {
-      this.id = orderInfo.id;
+      this.orderId = orderInfo.id;
       this.customerId = orderInfo.customerId;
       this.products = orderInfo.products;
+      this.orderDatails = orderInfo.orderDatails;
       this.dateOrdered = new Date();
       this.status = orderInfo.status || 'pending';
       this.total = this.calculateTotal();
+      this.name = orderInfo.name;
     }
   
     calculateTotal(): number {

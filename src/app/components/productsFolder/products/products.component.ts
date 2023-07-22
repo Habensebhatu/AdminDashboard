@@ -5,7 +5,7 @@ import { Product } from 'src/app/class/class';
 import { ProductService } from 'src/app/service/product.service';
 import { AddProductComponent } from '../add-product/add-product.component';
 import { Subject, Subscription, takeUntil } from 'rxjs';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { EditProductDialogComponent } from '../edit-product-dialog/edit-product-dialog.component';
 import { CategoryService } from 'src/app/service/category.service';
 
