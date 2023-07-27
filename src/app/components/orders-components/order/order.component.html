@@ -7,13 +7,13 @@
      
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>Order ID</th>
-        <td mat-cell *matCellDef="let order">{{ order.orderId }}</td>
+        <td mat-cell *matCellDef="let order">{{ order.OrderNumber}}</td>
       </ng-container>
   
       
       <ng-container matColumnDef="customerId">
         <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let order">{{ order.name }}</td>
+        <td mat-cell *matCellDef="let order">{{ order.recipientName }}</td>
       </ng-container>
   
     
@@ -34,7 +34,7 @@
     <ng-container matColumnDef="moreDetails">
       <th mat-header-cell *matHeaderCellDef>More Details</th>
       <td mat-cell *matCellDef="let order">
-        <button mat-raised-button color="primary">View</button>
+        <button mat-raised-button color="primary" [routerLink]="['/order-details', order.orderId]">View</button>
       </td>
   </ng-container>
   

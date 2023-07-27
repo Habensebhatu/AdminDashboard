@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AddCategoryDialogComponent } from '../categries/add-category-dialog/add-category-dialog.component';
+import { AddCategoryDialogComponent } from '../categries-components/add-category-dialog/add-category-dialog.component';
 
 
 export interface Element {

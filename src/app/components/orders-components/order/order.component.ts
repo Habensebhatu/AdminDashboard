@@ -12,7 +12,7 @@ export class OrderComponent {
   displayedColumns: string[] = ['id', 'customerId', 'dateOrdered', 'total', 'moreDetails'];
   dataSource: Order[] = [];  // replace with actual data
   private unsubscribe$ = new Subject<void>();
-acc: any;
+ 
 
   constructor(private orderService: OrderService) { }
 

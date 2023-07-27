@@ -23,4 +23,9 @@ export class OrderService {
    
      return observable;
      }
+
+     getOrderById(id: string): Observable<Order> {
+      console.log('order', id)
+     return this.http.get<Order>(`${this.apiUrl}/${id}`);
+   }
 }

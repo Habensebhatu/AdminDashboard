@@ -5,6 +5,9 @@ export class OrderDetails {
     title : string;
     quantity: string;
     amountTotal : string;
+    imageUrl : string;
+    price : string
+
 
     
     constructor(orderDetailsInfo: any) {
@@ -14,9 +17,8 @@ export class OrderDetails {
       this.title = orderDetailsInfo.title;
       this.quantity = orderDetailsInfo.quantity;
       this.amountTotal = orderDetailsInfo.amountTotal;
-
-
-      
+      this.imageUrl = orderDetailsInfo.imageUrl;
+      this.price = orderDetailsInfo.price;
     }
   
     

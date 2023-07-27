@@ -5,7 +5,7 @@ import { AddCategoryDialogComponent } from '../add-category-dialog/add-category-
 import { Category } from 'src/app/class/category.class';
 import { CategoryService } from 'src/app/service/category.service';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
-import { EditCategoryDialogComponent } from '../../edit-category-dialog/edit-category-dialog.component';
+import { EditCategoryDialogComponent } from '../edit-category-dialog/edit-category-dialog.component';
 import { Subject, takeUntil } from 'rxjs';
 
 

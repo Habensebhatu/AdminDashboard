@@ -25,23 +25,24 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
-import { AddCategoryDialogComponent } from './components/categries/add-category-dialog/add-category-dialog.component';
-import { ProductsComponent } from './components/productsFolder/products/products.component';
-import { AddProductComponent } from './components/productsFolder/add-product/add-product.component';
+import { AddCategoryDialogComponent } from './components/categries-components/add-category-dialog/add-category-dialog.component';
+import { ProductsComponent } from './components/products-components/products/products.component';
+import { AddProductComponent } from './components/products-components/add-product/add-product.component';
 import { ProductService } from './service/product.service';
-import { CategoryComponent } from './components/categries/category/category.component';
+import { CategoryComponent } from './components/categries-components/category/category.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { EditCategoryDialogComponent } from './components/edit-category-dialog/edit-category-dialog.component';
-import { EditProductDialogComponent } from './components/productsFolder/edit-product-dialog/edit-product-dialog.component';
-import { OrderComponent } from './components/order/order.component';
+import { EditCategoryDialogComponent } from './components/categries-components/edit-category-dialog/edit-category-dialog.component';
+import { EditProductDialogComponent } from './components/products-components/edit-product-dialog/edit-product-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './auth.guard';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
 import { LOCALE_ID } from '@angular/core';
-import { CategriesComponent } from './components/categries/categries.component';
+import { OrderComponent } from './components/orders-components/order/order.component';
+import { OrderDetailsComponent } from './components/orders-components/order-details/order-details.component';
+
 
 registerLocaleData(localeNl, 'nl');
 @NgModule({
@@ -58,9 +59,7 @@ registerLocaleData(localeNl, 'nl');
     EditProductDialogComponent,
     OrderComponent,
     LoginComponent,
-   
-    CategriesComponent,
-   
+    OrderDetailsComponent,
  
   ],
   imports: [
