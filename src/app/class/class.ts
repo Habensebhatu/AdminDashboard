@@ -7,7 +7,7 @@ export class Product {
       public price: number;
       public categoryName: string;
       public description: string;
-      public imageUrl: FormData
+      public imageUrls: string[];
 
       constructor(data: any) {
         this.productId = uuidv4();
@@ -16,7 +16,7 @@ export class Product {
         this.price = data.price;
         this.categoryName = data.categoryName;
         this.description = data.description;
-        this.imageUrl = data.imageUrl;
+        this.imageUrls = data.imageUrls;
 
     }
 

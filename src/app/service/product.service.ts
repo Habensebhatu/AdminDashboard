@@ -13,6 +13,7 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   setProducts(productData: FormData): Observable<Product> {
+    console.log("productData", productData)
     return this.http.post<Product>(this.apiUrl, productData);
 }
 
@@ -40,9 +41,8 @@ addProductToCache(product: Product): void {
     return this.http.delete<Product>(`${this.apiUrl}/${product.productId}`);
   }
   
-  updateProduct(product: Product) {
-    return this.http.put<Product>(`${this.apiUrl}/${product.productId}`, product);
+  updateProduct(formData: FormData) {
+    return this.http.put<Product>(this.apiUrl, formData);
   }
-
-  
+   
 }

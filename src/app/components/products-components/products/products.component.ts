@@ -39,6 +39,7 @@ export class ProductsComponent implements OnInit, OnDestroy  {
   getProducts(){
     this.productService.getProducts().pipe(takeUntil(this.unsubscribe$))
     .subscribe((data: Product[]) => {
+      console.log("data", data)
       this.dataSource = data;
     });;
   }
@@ -73,22 +74,18 @@ export class ProductsComponent implements OnInit, OnDestroy  {
       width: '450px',
     });
   
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        const index = this.dataSource.findIndex(cat => cat.productId === product.productId);
-        if (index !== -1) {
-          this.dataSource[index] = { ...product, ...result };
-          this.productService.updateProduct(this.dataSource[index]).pipe(takeUntil(this.unsubscribe$))
-          .subscribe({
-              next: (next) => {
-                this.getProducts();
-      
-              }
-          });
-        }
+    dialogRef.afterClosed().subscribe(resultFormData => {
+      if (resultFormData) {
+        this.productService.updateProduct(resultFormData).pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (next) => {
+            this.getProducts();
+          }
+        });
       }
     });
   }
+  
  
 
   

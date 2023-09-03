@@ -3,7 +3,7 @@
     
     <mat-card class="custom-card mb-6 p-6 bg-gray-50 mt-6 ">
       <mat-card-header class="mb-4">
-        <mat-card-title class="text-xl font-bold">Customer Information</mat-card-title>
+        <mat-card-title class="text-xl font-bold">Klantinformatie</mat-card-title>
       </mat-card-header>
       <mat-card-content>
   
@@ -12,25 +12,25 @@
   
           <!-- Date Ordered Column -->
           <ng-container matColumnDef="orderDate">
-            <th mat-header-cell *matHeaderCellDef>Date Ordered</th>
+            <th mat-header-cell *matHeaderCellDef>Besteldatum</th>
             <td mat-cell *matCellDef="let order">{{ order?.orderDate | date:'y-MM-dd' }}</td>
           </ng-container>
   
           <!-- Name Column -->
           <ng-container matColumnDef="recipientName">
-            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <th mat-header-cell *matHeaderCellDef>Naam</th>
             <td mat-cell *matCellDef="let order">{{ order?.recipientName }}</td>
           </ng-container>
   
           <!-- Email Column -->
           <ng-container matColumnDef="customerEmail">
-            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <th mat-header-cell *matHeaderCellDef>E-mailadres</th>
             <td mat-cell *matCellDef="let order">{{ order?.customerEmail }}</td>
           </ng-container>
   
           <!-- Phone Number Column -->
           <ng-container matColumnDef="phoneNumber">
-            <th mat-header-cell *matHeaderCellDef>Phone Number</th>
+            <th mat-header-cell *matHeaderCellDef>Telefoonnummer</th>
             <td mat-cell *matCellDef="let order">{{ order?.phoneNumber }}</td>
           </ng-container>
   
@@ -41,11 +41,11 @@
   
         <!-- Delivery Address -->
         <div class="delivery-address mt-6 p-4 bg-gray-200 rounded-lg text-center">
-            <h2 class="text-lg font-medium mb-4">Delivery Address</h2>
+            <h2 class="text-lg font-medium mb-4">Afleveradres</h2>
             <mat-list>
-                <mat-list-item>City: {{ dataSource?.city }}</mat-list-item>
-                <mat-list-item>Address: {{ dataSource?.line1 }}</mat-list-item>
-                <mat-list-item>Postal Code: {{ dataSource?.postalCode }}</mat-list-item>
+                <mat-list-item>Stad: {{ dataSource?.city }}</mat-list-item>
+                <mat-list-item>Adres: {{ dataSource?.line1 }}</mat-list-item>
+                <mat-list-item>Postcode: {{ dataSource?.postalCode }}</mat-list-item>
             </mat-list>
         </div>
       </mat-card-content>
@@ -54,16 +54,16 @@
     <!-- Second Card -->
     <mat-card class="custom-card p-6 bg-gray-50 rounded-lg mb-6">
         <mat-card-header class="mb-4">
-            <mat-card-title class="text-xl font-bold">Order Items</mat-card-title>
+            <mat-card-title class="text-xl font-bold">Bestelde artikelen</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <!-- Header Row -->
             <div class="flex justify-between text-gray-600 mb-2">
-                <div class="w-1/5">Photo</div>
-                <div class="w-1/5">Name Product</div>
-                <div class="w-1/5">Quantity</div>
-                <div class="w-1/5">Price</div>
-                <div class="w-1/5">Total</div>
+              <div class="w-1/5">Foto</div>
+              <div class="w-1/5">Productnaam</div>
+              <div class="w-1/5">Aantal</div>
+              <div class="w-1/5">Prijs</div>
+              <div class="w-1/5">Totaal</div>              
             </div>
     
             <!-- Data Rows -->

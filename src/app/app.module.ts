@@ -42,6 +42,7 @@ import localeNl from '@angular/common/locales/nl';
 import { LOCALE_ID } from '@angular/core';
 import { OrderComponent } from './components/orders-components/order/order.component';
 import { OrderDetailsComponent } from './components/orders-components/order-details/order-details.component';
+import { SafeUrlPipe } from './safe-url.pipe';
 
 
 registerLocaleData(localeNl, 'nl');
@@ -60,7 +61,11 @@ registerLocaleData(localeNl, 'nl');
     OrderComponent,
     LoginComponent,
     OrderDetailsComponent,
+    SafeUrlPipe
  
+  ],
+  exports: [
+    SafeUrlPipe
   ],
   imports: [
     BrowserModule,

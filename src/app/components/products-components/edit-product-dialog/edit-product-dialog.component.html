@@ -23,9 +23,33 @@
         <mat-label>Description</mat-label>
         <input matInput type="text" formControlName="description">
       </mat-form-field>
-      <div class="file-upload mb-5">
-        <input type="file" id="file" class="file-input"  (change)="onFileSelected($event)">
-      </div>
+       <div class="file-upload mb-5">
+      <input type="file" id="file" class="file-input" multiple (change)="onFilesSelected($event)">
+  </div>
+  
+  <div class="flex items-end">
+    <!-- First Image: Represents Home Page -->
+    <div class="w-1/4 border rounded p-1 m-1" *ngIf="displayedImages.length > 0">
+        <img [src]="displayedImages[0].url" alt="Home Page Image" class="w-full h-64 object-cover cursor-pointer" style="width: 160px; height: 160px;">
+        <button (click)="removeDisplayedImage(0)">Remove</button>
+        <button (click)="triggerFileInput($event, 0)">Select File</button>
+        <input  style="display: none;"  type="file" (change)="replaceDisplayedImage($event, 0)">
+    </div>
+  
+    <!-- Side Images: Represents Product Details -->
+   <ng-container *ngFor="let imgUrl of displayedImages.slice(1); let i = index">
+    <div class="w-1/4 border rounded p-1 m-1">
+        <img [src]="imgUrl.url" alt="Product Image" class="w-full h-32 object-cover cursor-pointer">
+        <!-- Adjust the index here by adding 1 -->
+        <button (click)="removeDisplayedImage(i + 1)">Remove</button>
+        <!-- Custom button to select a file -->
+        <button (click)="triggerFileInput($event, i + 1)">Select File</button>
+        <!-- The actual file input is hidden -->
+        <input style="display: none;" type="file" #fileInput (change)="replaceDisplayedImage($event, i + 1)">
+    </div>
+</ng-container>
+
+</div>
       <button mat-raised-button color="primary" (click)="save()" > Edit Product</button>
     </form>
   
