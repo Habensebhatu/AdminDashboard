@@ -35,7 +35,10 @@ addProductToCache(product: Product): void {
 
   return observable;
   }
-
+  getPopularProducts(): Product[] {
+    return this.products.filter(product => product.isPopular);
+  }
+  
 
   removeProducts(product: Product): Observable<Product>  {
     return this.http.delete<Product>(`${this.apiUrl}/${product.productId}`);

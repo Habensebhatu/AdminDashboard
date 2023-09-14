@@ -25,7 +25,8 @@ export class AddProductComponent implements OnInit {
       price: ['', Validators.required],
       category: ['', Validators.required],
       description: ['', Validators.required],
-      image: ['', Validators.required]
+      image: ['', Validators.required],
+      isPopular: [false]  // default to false
     });
   }
 ngOnInit(): void {
@@ -33,6 +34,7 @@ ngOnInit(): void {
   this.productService.getProducts();
  
 }
+
 
 selectedFiles: File[] = [];
 
@@ -50,8 +52,18 @@ onFilesSelected(event: any) {
 
 
 addProduct(): void {
+  if (this.productForm.value.isPopular) {
+    const popularProductsCount = this.productService.getPopularProducts().length;
+
+    if (popularProductsCount >= 8) {
+      alert(`U heeft ${popularProductsCount} populaire producten. U kunt niet meer dan 8 populaire producten toevoegen. Verwijder alstublieft één product voordat u een ander toevoegt.`);
+      return; // Exit the function without adding the product
+    }
+    
+  }
   if (this.selectedFiles && this.selectedFiles.length) {
     const product = new Product(this.productForm.value);
+    console.log("ispopular", product)
     let selectedCategory = this.productForm.get('category')!.value;
     product.categoryName = selectedCategory.name;
     product.categoryId = selectedCategory.categoryId;

@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { ImageUpdateModel } from './ImageUpdateModel';
 
 export class Product {
       public productId: string;
@@ -7,7 +8,9 @@ export class Product {
       public price: number;
       public categoryName: string;
       public description: string;
-      public imageUrls: string[];
+      public isPopular: boolean;
+      public imageUrls: ImageUpdateModel[];
+
 
       constructor(data: any) {
         this.productId = uuidv4();
@@ -17,6 +20,7 @@ export class Product {
         this.categoryName = data.categoryName;
         this.description = data.description;
         this.imageUrls = data.imageUrls;
+        this.isPopular = data.isPopular;
 
     }
 

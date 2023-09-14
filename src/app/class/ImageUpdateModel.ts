@@ -1,6 +1,6 @@
 export interface ImageUpdateModel {
-    Index: number;
-    URL: string;
+    index: number;
+    file: string;
     isNew: boolean;
   }
   

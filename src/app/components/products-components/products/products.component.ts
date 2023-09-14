@@ -16,6 +16,8 @@ import { CategoryService } from 'src/app/service/category.service';
 })
 export class ProductsComponent implements OnInit, OnDestroy  {
   private unsubscribe$ = new Subject<void>();
+  showPopularOnly = false;
+
   constructor(private router: Router, private productService: ProductService, public dialog: MatDialog, private categoryService: CategoryService) {}
   
   displayedColumns: string[] = [
@@ -30,19 +32,17 @@ export class ProductsComponent implements OnInit, OnDestroy  {
   
   ngOnInit(): void {
   this.getProducts();
-    // this.productService.productsUpdated.subscribe(updatedProductes => {
-    //   this.dataSource = updatedProductes;
-    //   console.log("updatedProductes", updatedProductes);
-    // });
     
   }
   getProducts(){
     this.productService.getProducts().pipe(takeUntil(this.unsubscribe$))
     .subscribe((data: Product[]) => {
-      console.log("data", data)
-      this.dataSource = data;
-    });;
-  }
+        this.dataSource = this.showPopularOnly 
+            ? data.filter(product => product.isPopular)
+            : data;
+    });
+}
+
   openAddProductDialog(): void {
     const dialogRef = this.dialog.open(AddProductComponent, {
       width: '450px',

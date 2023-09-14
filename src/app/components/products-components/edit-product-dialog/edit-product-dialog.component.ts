@@ -6,6 +6,7 @@ import { CategoryService } from 'src/app/service/category.service';
 import { ProductService } from 'src/app/service/product.service';
 import { Product } from 'src/app/class/class';
 import { Subject, takeUntil } from 'rxjs';
+import { ImageUpdateModel } from 'src/app/class/ImageUpdateModel';
 
 @Component({
   selector: 'app-edit-product-dialog',
@@ -16,24 +17,30 @@ export class EditProductDialogComponent {
   productForm: FormGroup;
   categories: Category[] = [];
   private unsubscribe$ = new Subject<void>();
-  displayedImages: { url: string, isNew: boolean }[] = [];
+  displayedImages:  ImageUpdateModel[] = [];
   constructor(public dialogRef: MatDialogRef<EditProductDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Product, private fb: FormBuilder, private categoryService: CategoryService,
     private productService: ProductService) {
       // Map each URL to the new object structure
-      this.displayedImages = data.imageUrls.map(url => ({ url: url, isNew: true }));
+      this.displayedImages = data.imageUrls.map(imageInfo => ({ file: imageInfo.file, index: imageInfo.index, isNew: false }));
+      // this.displayedImages = data.imageUrls
+     
       
       this.productForm = this.fb.group({
           title: [data.title],
           price: [data.price],
           category: [data.categoryName],
           description: [data.description],
-          image: [data.imageUrls]  // This remains unchanged if your form still expects a string[]
+          isPopular: [data.isPopular],  
+          image: [data.isPopular]  // This remains unchanged if your form still expects a string[]
       });
+      console.log("dataproduct", data)
 }
 
   ngOnInit(): void {
     this.getCatogories();
+    console.log("this.displayedImages", this.displayedImages)
+    
   }
 
   getCatogories(){
@@ -42,31 +49,34 @@ export class EditProductDialogComponent {
       this.categories = data;
     });;
   }
-  selectedFiles: File[] = [];
+  selectedFiles: { file: File, index: number }[] = [];
 
   async  onFilesSelected(event: any) {
   let fileList: FileList = event.target.files;
   
   if(fileList.length > 0) {
       for(let i = 0; i < fileList.length; i++) {
-          this.selectedFiles.push(fileList[i]);
-          const fileUrl = await this.readFileAsDataURL(fileList[i]);
-          this.displayedImages.push({ url: fileUrl, isNew: false });
+        
+        this.selectedFiles.push({ file: fileList[i], index: this.displayedImages[this.displayedImages.length-1].index+1});
+        const fileUrl = await this.readFileAsDataURL(fileList[i]);
+        this.displayedImages.push({ file: fileUrl, index: this.displayedImages[this.displayedImages.length-1].index+1, isNew: true});
       }
   }
 }
+
+
 removeDisplayedImage(index: number) {
   this.displayedImages.splice(index, 1);
 
 }
 
 
-async replaceDisplayedImage(event: any, index: number) {
+async replaceDisplayedImage(event: any, index: number, imageInex: number) {
   const fileList: FileList = event.target.files;
   if (fileList.length > 0) {
       const fileUrl = await this.readFileAsDataURL(fileList[0]);
-      this.displayedImages[index] = { url: fileUrl, isNew: false };
-      this.selectedFiles[index] = fileList[0];
+      this.displayedImages[index] = { file: fileUrl,  index: imageInex, isNew: true };
+      this.selectedFiles[index] = { file: fileList[0], index: imageInex };
   }
 }
 
@@ -88,18 +98,31 @@ triggerFileInput(event: any, index: number) {
  save() {
   const product = new Product(this.productForm.value);
   let selectedCategory = this.productForm.get('category')!.value;
+  product.isPopular = this.productForm.get('isPopular')!.value;
   product.categoryName = selectedCategory.name;
   product.productId = this.data.productId
   product.categoryId = this.data.categoryId
   product.categoryName = selectedCategory
   const formData = new FormData();
   formData.append("product", JSON.stringify(product));
-  this.selectedFiles.forEach((newImage) => {
-    formData.append("newImages", newImage);
+  this.selectedFiles.forEach((newImageObj, index) => {
+    formData.append("newImages", newImageObj.file);
+    formData.append("newImageIndices", newImageObj.index.toString());
+    console.log("newImageObj.file", newImageObj.file);
+    console.log("newImageIndices", newImageObj.index.toString());
   });
-  console.log(" this.selectedFiles",  this.selectedFiles)
-  const existingImages = this.displayedImages.filter(img => img.isNew).map(img => img.url)
-  console.log(" existingImages",  existingImages)
+  
+  
+  console.log("this.selectedFiles", this.selectedFiles);
+  
+  const existingImages = this.displayedImages
+  .filter(img => !img.isNew)
+  .map(img => ({
+      file: img.file, // assuming your object's property for the image URL is named 'file'
+      index: img.index
+  }));
+
+  console.log("existingImages",  existingImages)
   formData.append("existingImages", JSON.stringify(existingImages));
   this.dialogRef.close(formData);
 }

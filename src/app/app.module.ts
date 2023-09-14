@@ -43,6 +43,8 @@ import { LOCALE_ID } from '@angular/core';
 import { OrderComponent } from './components/orders-components/order/order.component';
 import { OrderDetailsComponent } from './components/orders-components/order-details/order-details.component';
 import { SafeUrlPipe } from './safe-url.pipe';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 
 registerLocaleData(localeNl, 'nl');
@@ -93,6 +95,7 @@ registerLocaleData(localeNl, 'nl');
     MatTreeModule,
     MatSelectModule,
     HttpClientModule,
+    MatCheckboxModule,
     
     
   ],

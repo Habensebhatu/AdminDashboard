@@ -1,7 +1,8 @@
-  <div class="p-6">
+<div class="p-4 pb-0">
   <h2>Add new product</h2>
 </div>
   <form [formGroup]="productForm" (ngSubmit)="addProduct()" class="p-6">
+    <mat-checkbox formControlName="isPopular" class="mt-0 mb-2">Mark as Popular</mat-checkbox>
     <mat-form-field class="w-full" >
       <mat-label>Title</mat-label>
       <input matInput type="text" formControlName="title">
@@ -23,7 +24,7 @@
       <mat-label>Description</mat-label>
       <input matInput type="text" formControlName="description">
     </mat-form-field>
-    <div class="file-upload mb-5">
+    <div class="file-upload mb-5 pb-0">
       <input type="file" id="file" class="file-input" multiple (change)="onFilesSelected($event)">
   </div>
   

@@ -1,7 +1,8 @@
-<div class="p-6">
+<div class="p-6 pb-0">
     <h2>Edit product</h2>
   </div>
     <form [formGroup]="productForm"  class="p-6">
+      <mat-checkbox formControlName="isPopular" class="mt-0 mb-2">Mark as Popular</mat-checkbox>
       <mat-form-field class="w-full" >
         <mat-label>Title</mat-label>
         <input matInput type="text" formControlName="title">
@@ -30,22 +31,22 @@
   <div class="flex items-end">
     <!-- First Image: Represents Home Page -->
     <div class="w-1/4 border rounded p-1 m-1" *ngIf="displayedImages.length > 0">
-        <img [src]="displayedImages[0].url" alt="Home Page Image" class="w-full h-64 object-cover cursor-pointer" style="width: 160px; height: 160px;">
+        <img [src]="displayedImages[0].file" alt="Home Page Image" class="w-full h-64 object-cover cursor-pointer" style="width: 160px; height: 160px;">
         <button (click)="removeDisplayedImage(0)">Remove</button>
         <button (click)="triggerFileInput($event, 0)">Select File</button>
-        <input  style="display: none;"  type="file" (change)="replaceDisplayedImage($event, 0)">
+        <input  style="display: none;"  type="file" (change)="replaceDisplayedImage($event, 0,displayedImages[0].index)">
     </div>
   
     <!-- Side Images: Represents Product Details -->
    <ng-container *ngFor="let imgUrl of displayedImages.slice(1); let i = index">
     <div class="w-1/4 border rounded p-1 m-1">
-        <img [src]="imgUrl.url" alt="Product Image" class="w-full h-32 object-cover cursor-pointer">
+        <img [src]="imgUrl.file" alt="Product Image" class="w-full h-32 object-cover cursor-pointer">
         <!-- Adjust the index here by adding 1 -->
         <button (click)="removeDisplayedImage(i + 1)">Remove</button>
         <!-- Custom button to select a file -->
         <button (click)="triggerFileInput($event, i + 1)">Select File</button>
         <!-- The actual file input is hidden -->
-        <input style="display: none;" type="file" #fileInput (change)="replaceDisplayedImage($event, i + 1)">
+        <input style="display: none;" type="file" #fileInput (change)="replaceDisplayedImage($event, i + 1, imgUrl.index)">
     </div>
 </ng-container>
 
