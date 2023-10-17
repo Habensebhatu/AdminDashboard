@@ -8,6 +8,7 @@ import { OrderComponent } from './components/orders-components/order/order.compo
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { OrderDetailsComponent } from './components/orders-components/order-details/order-details.component';
+import { CustomersComponent } from './components/customers/customers.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -29,6 +30,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'order', component: OrderComponent },
+  { path: 'customers', component: CustomersComponent },
+  
   { path: 'order-details/:id', component: OrderDetailsComponent },
 ];
 

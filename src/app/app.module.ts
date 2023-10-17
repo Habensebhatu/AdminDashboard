@@ -44,6 +44,7 @@ import { OrderComponent } from './components/orders-components/order/order.compo
 import { OrderDetailsComponent } from './components/orders-components/order-details/order-details.component';
 import { SafeUrlPipe } from './safe-url.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CustomersComponent } from './components/customers/customers.component';
 
 
 
@@ -63,7 +64,8 @@ registerLocaleData(localeNl, 'nl');
     OrderComponent,
     LoginComponent,
     OrderDetailsComponent,
-    SafeUrlPipe
+    SafeUrlPipe,
+    CustomersComponent
  
   ],
   exports: [
