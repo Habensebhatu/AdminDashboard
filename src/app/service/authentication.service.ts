@@ -8,7 +8,8 @@ import { Observable, map } from 'rxjs';
 })
 export class AuthenticationService {
 
-  private readonly apiUrl = 'https://localhost:7087/api/Authentication/login';
+  // private readonly apiUrl = 'https://localhost:7087/api/Authentication/login';
+  private readonly apiUrl = 'https://webshopfilimon.azurewebsites.net/api/Authentication/login';
   private timer: ReturnType<typeof setTimeout> | undefined;
 
   constructor(private http: HttpClient, private router: Router) { }

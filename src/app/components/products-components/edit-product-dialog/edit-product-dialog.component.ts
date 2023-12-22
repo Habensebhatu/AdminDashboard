@@ -22,7 +22,9 @@ export class EditProductDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: Product, private fb: FormBuilder, private categoryService: CategoryService,
     private productService: ProductService) {
       // Map each URL to the new object structure
-      this.displayedImages = data.imageUrls.map(imageInfo => ({ file: imageInfo.file, index: imageInfo.index, isNew: false }));
+      this.displayedImages = data.imageUrls ? data.imageUrls.map(imageInfo => ({
+        file: imageInfo.file, index: imageInfo.index, isNew: false 
+      })) : [];
       // this.displayedImages = data.imageUrls
      
       
@@ -34,7 +36,7 @@ export class EditProductDialogComponent {
           isPopular: [data.isPopular],  
           image: [data.isPopular]  // This remains unchanged if your form still expects a string[]
       });
-      console.log("dataproduct", data)
+     
 }
 
   ngOnInit(): void {
@@ -51,24 +53,25 @@ export class EditProductDialogComponent {
   }
   selectedFiles: { file: File, index: number }[] = [];
 
-  async  onFilesSelected(event: any) {
-  let fileList: FileList = event.target.files;
-  
-  if(fileList.length > 0) {
+  async onFilesSelected(event: any) {
+    let fileList: FileList = event.target.files;
+    if(fileList.length > 0) {
       for(let i = 0; i < fileList.length; i++) {
-        
-        this.selectedFiles.push({ file: fileList[i], index: this.displayedImages[this.displayedImages.length-1].index+1});
+        const newIndex = this.displayedImages.length > 0 ? 
+          this.displayedImages[this.displayedImages.length - 1].index + 1 : 0;
+        this.selectedFiles.push({ file: fileList[i], index: newIndex });
         const fileUrl = await this.readFileAsDataURL(fileList[i]);
-        this.displayedImages.push({ file: fileUrl, index: this.displayedImages[this.displayedImages.length-1].index+1, isNew: true});
+        this.displayedImages.push({ file: fileUrl, index: newIndex, isNew: true });
       }
+    }
   }
-}
 
 
-removeDisplayedImage(index: number) {
-  this.displayedImages.splice(index, 1);
-
-}
+  removeDisplayedImage(index: number) {
+    if(index >= 0 && index < this.displayedImages.length) {
+      this.displayedImages.splice(index, 1);
+    }
+  }
 
 
 async replaceDisplayedImage(event: any, index: number, imageInex: number) {
@@ -95,37 +98,39 @@ triggerFileInput(event: any, index: number) {
 }
 
 
- save() {
+save() {
+  // Check if there are images selected
+  if (this.displayedImages.length === 0) {
+    alert('Please add at least one image for the product.');
+    return; // Stop the function execution if no images are added
+  }
+
   const product = new Product(this.productForm.value);
   let selectedCategory = this.productForm.get('category')!.value;
   product.isPopular = this.productForm.get('isPopular')!.value;
   product.categoryName = selectedCategory.name;
-  product.productId = this.data.productId
-  product.categoryId = this.data.categoryId
-  product.categoryName = selectedCategory
+  product.productId = this.data.productId;
+  product.categoryId = this.data.categoryId;
+  product.categoryName = selectedCategory;
   const formData = new FormData();
   formData.append("product", JSON.stringify(product));
+
   this.selectedFiles.forEach((newImageObj, index) => {
     formData.append("newImages", newImageObj.file);
     formData.append("newImageIndices", newImageObj.index.toString());
-    console.log("newImageObj.file", newImageObj.file);
-    console.log("newImageIndices", newImageObj.index.toString());
   });
-  
-  
-  console.log("this.selectedFiles", this.selectedFiles);
-  
-  const existingImages = this.displayedImages
-  .filter(img => !img.isNew)
-  .map(img => ({
-      file: img.file, // assuming your object's property for the image URL is named 'file'
-      index: img.index
-  }));
 
-  console.log("existingImages",  existingImages)
+  const existingImages = this.displayedImages
+    .filter(img => !img.isNew)
+    .map(img => ({
+        file: img.file, // assuming your object's property for the image URL is named 'file'
+        index: img.index
+    }));
+
   formData.append("existingImages", JSON.stringify(existingImages));
   this.dialogRef.close(formData);
 }
+
   
 }
 

@@ -8,71 +8,49 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CategoryService {
   private categories: Category[] = [];
-categoriesUpdated = new Subject<Category[]>();
-private readonly apiUrl = 'https://localhost:7087/api/Category';
+  categoriesUpdated = new Subject<Category[]>();
+  // private readonly apiUrl = 'https://localhost:7087/api/Category';
+  private readonly apiUrl = 'https://webshopfilimon.azurewebsites.net/api/Category';
 
-constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {
 
-}
+  }
 
 
-setCatogories(category: Category): Observable<Category>{
-  this.categories.push(category);
-  // localStorage.setItem('categories', JSON.stringify(this.categories));
-  this.categoriesUpdated.next([...this.categories]);
-  return this.http.post<Category>(this.apiUrl, category);
- 
-  
+  setCatogories(category: Category): Observable<Category> {
+    this.categories.push(category);
+    // localStorage.setItem('categories', JSON.stringify(this.categories));
+    this.categoriesUpdated.next([...this.categories]);
+    return this.http.post<Category>(`${this.apiUrl}/AddCategory`, category);
     
-}
+  }
 
 
-getCatogories(): Observable<Category[]> {
-  const observable = this.http.get<Category[]>(this.apiUrl);
+  getCatogories(): Observable<Category[]> {
+    const observable = this.http.get<Category[]>(`${this.apiUrl}/GetAllCategories`);
+    observable.subscribe({
+      next: categories => {
+        this.categories = categories;
+        // localStorage.setItem('categories', JSON.stringify(categories));
+      },
+      error: error => {
+        console.error('Error getting categories: ', error);
+      }
+    });
 
-  observable.subscribe({
-    next: categories => {
-      this.categories = categories;
-      // localStorage.setItem('categories', JSON.stringify(categories));
-    },
-    error: error => {
-      console.error('Error getting categories: ', error);
-    }
-  });
+    return observable;
+  }
 
-  return observable;
-}
+  getCategoryById(id: string): Observable<Category> {
+    console.log('gegete', id)
+    return this.http.get<Category>(`${this.apiUrl}/GetCategoryById/${id}`);
+  }
 
-// getCatogories(): Observable<Category[]>{
-//   // const storedCategories = localStorage.getItem('categories');
-//   // if (storedCategories) {
-//   //   this.categories = JSON.parse(storedCategories);
-//   // }
-//   // return [...this.categories];
-//   return this.http.get<Category[]>(this.apiUrl);
-  
-// }
+  removeCategory(category: Category): Observable<Category> {
+    return this.http.delete<Category>(`${this.apiUrl}/DeleteCategory/${category.categoryId}`);
+  }
 
-getCategoryById(id: string): Observable<Category> {
-   console.log('gegete', id)
-  return this.http.get<Category>(`${this.apiUrl}/${id}`);
-}
-removeCategory(category: Category):Observable<Category> {
-  // let categories = this.getCatogories();
-  // categories = categories.filter(cat => cat.Name !== category.Name);
-  // localStorage.setItem('categories', JSON.stringify(categories));
-  // this.categoriesUpdated.next(categories);
-  return this.http.delete<Category>(`${this.apiUrl}/${category.categoryId}`);
-}
-
-updateCategory(category: Category):Observable<Category> {
-//   const index = this.categories.findIndex(cat => cat.categoryId === category.categoryId);
-//   if (index !== -1) {
-//     this.categories[index] = category;
-//   }
-//   localStorage.setItem('categories', JSON.stringify([...this.categories]));
-//   this.categoriesUpdated.next([...this.categories]);
-// }
- return this.http.put<Category>(`${this.apiUrl}/${category.categoryId}`, category);
-}
+  updateCategory(category: Category): Observable<Category> {
+    return this.http.put<Category>(`${this.apiUrl}/UpdateCategory/${category.categoryId}`, category);
+  }
 }
